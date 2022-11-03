@@ -20,7 +20,7 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            role: {
+            role_id: {
                 allowNull: false,
                 type: Sequelize.TINYINT,
             },

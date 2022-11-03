@@ -10,7 +10,7 @@ async function register(request, response) {
             })
         }
         
-        const dbRole = await models.Role.findByPk(request.body.role)
+        const dbRole = await models.Role.findByPk(request.body.role_id)
         if (!dbRole) {
                 return response.status(409).json({
                 message: 'Invalid role!',
@@ -21,7 +21,7 @@ async function register(request, response) {
             name: request.body.name,
             email: request.body.email,
             password: hashHelper.hash(request.body.password),
-            role: request.body.role,
+            role_id: request.body.role_id,
         }
         
         models.User.create(newUser).then(async (result) => {

@@ -3,7 +3,7 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {
         static associate(models) {
-            User.belongsTo(models.Role, { foreignKey: 'role' })
+            User.belongsTo(models.Role, { foreignKey: 'role_id' })
             User.hasOne(models.UserInfo, { foreignKey: 'user_id' })
         }
     }
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
                 },
             },
             password: DataTypes.STRING,
-            role: DataTypes.TINYINT,
+            role_id: DataTypes.TINYINT,
             deletedAt: DataTypes.DATE,
             createdAt: DataTypes.DATE,
             updatedAt: DataTypes.DATE,

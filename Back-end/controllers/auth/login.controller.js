@@ -22,7 +22,7 @@ async function login(request, response) {
                 {
                     userId: dbUser.id,
                     email: dbUser.email,
-                    role: dbUser.role,
+                    role_id: dbUser.role_id,
                 },
                 process.env.JWT_SECRET,
                 function (err, token) {

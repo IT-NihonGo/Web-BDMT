@@ -1,5 +1,5 @@
 {
-  "development": {
+  "test": {
       "host": "sql.freedb.tech",
       "username": "freedb_thaingocquang",
       "password": "FUhqpQN$jC4pfKQ",
@@ -7,12 +7,12 @@
       "database": "freedb_bdmt-blog",
       "dialect": "mysql"
   },
-  "test": {
+  "development": {
         "host": "127.0.0.1",
         "username": "root",
         "password": "2404",
         "port": 3306,
-        "database": "bdmt-blog",
+        "database": "bdmt",
         "dialect": "mysql"
   },
   "production": {
