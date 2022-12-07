@@ -15,13 +15,23 @@ const index = async (request, response) => {
             let rateByCurrentUser = await RateDAO.findByStoreIDAndUserID(store.id, request.user.user_id)
             if (rateByCurrentUser) {
                 results.push({
-                    storeInfo: store,
-                    rateInfo: rateByCurrentUser
+                    "id": store.id,
+                    "name": store.name,
+                    "address": store.address,
+                    "user_id": store.user_id,
+                    "createdAt": store.createdAt,
+                    "updatedAt": store.createdAt,
+                    "rateAmount": rateByCurrentUser.amount
                 })
             } else {
                 results.push({
-                    storeInfo: store,
-                    rateInfo: null
+                    "id": store.id,
+                    "name": store.name,
+                    "address": store.address,
+                    "user_id": store.user_id,
+                    "createdAt": store.createdAt,
+                    "updatedAt": store.createdAt,
+                    "rateAmount": 0
                 })
             }
         }
