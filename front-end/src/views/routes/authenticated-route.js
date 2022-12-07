@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth"
 
 const AuthenticatedRoute = () => {
     const { token } = useAuth()
-    if (token !=="null") {
+    if (token !=="null" && token !=="null") {
         return <Outlet />;
     } else {
         return <Navigate to="/sign-in" />;

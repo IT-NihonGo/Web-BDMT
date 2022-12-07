@@ -10,6 +10,7 @@ const index = async (req, res) => {
         const posts = await getAllPost()
         return res.status(200).json(posts)
     } catch (error) {
+        console.log(error);
         return res.status(500).json({
             message: 'Something went wrong!',
             error: error,
@@ -44,7 +45,7 @@ const showByUserId = async (req, res) => {
 const create = async (req, res) => {
     try {
         const newPost = {
-            user_id: req.body.user_id,
+            user_id: req.user.user_id,
             store_id: req.body.store_id,
             title: req.body.title,
             content: req.body.content,
@@ -54,9 +55,10 @@ const create = async (req, res) => {
             message: 'Create post successfully!',
         })
     } catch (err) {
+        console.log(err);
         return res.status(500).json({
             message: 'Something went wrong!',
-            error: error,
+            error: err,
         })
     }
 };

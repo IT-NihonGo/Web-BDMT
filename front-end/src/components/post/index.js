@@ -1,14 +1,100 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Carousel, Input, Tooltip } from "antd";
 import { LikeOutlined, LikeFilled } from "@ant-design/icons";
-import Comment from "../../components/comment";
 import { listPostsImages } from "../../utils";
 import { getDateTime } from "../../helpers/formatDate";
+import likeApi from "../../api/likeApi";
+import useAuth from "../../hooks/useAuth";
+import Comment from "../../components/comment";
 import "./post.scss";
+import commentApi from "../../api/commentApi";
 const { TextArea } = Input;
-function Post({ post }) {
+function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAllComment }) {
     const slider = useRef();
+    const { user } = useAuth();
     const [showComment, setShowComment] = useState(false);
+    const [likeState, setLikeState] = useState(false);
+    const [numberOfLike, setNumberOfLike] = useState();
+    const [listToolTips, setListToolTips] = useState([]);
+    const [commentText, setCommentText] = useState("");
+    const [numberOfComment, setNumberOfComment] = useState();
+    const [limitComments, setLimitComments] = useState();
+    const [comments, setComments] = useState();
+    const [limit, setLimit] = useState(5);
+    useEffect(() => {
+        const likeUsers = likesOfPosts.filter((like) => like.post_id === post.id);
+        setLikeState(
+            likesOfPosts.find(
+                (like) => like.User.id === user.id && like.post_id === post.id
+            )
+        );
+        setNumberOfLike(likeUsers.length);
+        setListToolTips(
+            likeUsers.map((like) => {
+                return like.User.name;
+            })
+        );
+        const commentUsers = listComments.filter(
+            (comment) => comment.post_id === post.id
+        );
+        setComments(commentUsers)
+        setNumberOfComment(commentUsers.length);
+    }, []);
+
+    useEffect(() => {
+        const commentUsers = listComments.filter(
+            (comment) => comment.post_id === post.id
+        );
+        setComments(commentUsers)
+        setLimitComments(
+            commentUsers
+                ?.filter((comment) => comment.parent_id === null)
+                .slice(0, limit)
+        );
+    }, [limit, listComments]);
+
+    const handleCreateLike = async () => {
+        const like = {
+            post_id: post.id,
+        };
+        await likeApi.createLikePost(like);
+
+        setLikeState(!likeState);
+        if (likeState) {
+            setNumberOfLike(numberOfLike - 1);
+            setListToolTips(
+                listToolTips.filter((like) => like.user._id !== user.id)
+            );
+        } else {
+            setNumberOfLike(numberOfLike + 1);
+            setListToolTips((listToolTips) => [...listToolTips, user.name]);
+        }
+    };
+
+    const handleEnter = (e) => {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            e.preventDefault();
+            if (commentText !== "") {
+                const newComment = {
+                    post_id: post.id,
+                    content: commentText,
+                };
+                handleCreateComment(newComment);
+                setCommentText("");
+            }
+        }
+    };
+    const handleCreateComment = async (data) => {
+        const comment = {
+            post_id: data.post_id,
+            content: data.content,
+            parent_id: data.parent_id,
+        };
+        await commentApi.createComment(comment);
+        setShowComment(true);
+        handleGetAllComment();
+        setNumberOfComment(numberOfComment + 1);
+    };
     return (
         <div className="post-container">
             <div className="post-content">
@@ -19,7 +105,10 @@ function Post({ post }) {
                                 className="img-circle"
                                 style={{ width: "50px", height: "50px" }}
                                 alt=""
-                                src={process.env.REACT_APP_API_URL + post.User.UserInfo?.avatar}
+                                src={
+                                    process.env.REACT_APP_API_URL +
+                                    post.User.UserInfo?.avatar
+                                }
                             />
                         </div>
                         <div className="ms-3">
@@ -64,10 +153,10 @@ function Post({ post }) {
                 </div>
                 <div className="post-container__bottom mx-3 mt-2">
                     <div className="d-flex align-item-center">
-                        {post.numberOfLike > 0 && (
+                        {numberOfLike > 0 && (
                             <Tooltip
                                 title={() =>
-                                    post.listToolTips.map((item) => (
+                                    listToolTips.map((item) => (
                                         <>
                                             {item}
                                             <br />
@@ -86,30 +175,31 @@ function Post({ post }) {
                                     src={require("../../assets/images/like.png")}
                                     alt=""
                                 />
-                                <span className="ms-2">
-                                    {/* {post.numberOfLike} */}
-                                    2
-                                </span>
+                                <span className="ms-2">{numberOfLike}</span>
                             </Tooltip>
                         )}
-                        {/* {post.commentsOfPost.length > 0 && ( */}
+                        {numberOfComment > 0 && (
                             <div className="ms-auto underline">
-                                <span onClick={() => setShowComment(true)}>
-                                    {/* {post.commentsOfPost.length + 1} bình luận */}
-                                    2 bình luận
+                                <span
+                                    onClick={() => setShowComment(!showComment)}
+                                >
+                                    {numberOfComment} bình luận
                                 </span>
                             </div>
-                        {/* )} */}
+                        )}
                     </div>
                     <div className="post-container__bottom__action">
                         <div
                             className={
-                                !post.likeState
+                                !likeState
                                     ? "col-4 d-flex justify-content-center"
                                     : "col-4 d-flex justify-content-center txt-blue"
                             }
+                            onClick={() =>
+                                handleCreateLike()
+                            }
                         >
-                            {post.likeState ? (
+                            {likeState ? (
                                 <LikeFilled className="icon" />
                             ) : (
                                 <LikeOutlined className="icon" />
@@ -131,7 +221,10 @@ function Post({ post }) {
                         <img
                             className="img-circle"
                             alt=""
-                            src={process.env.REACT_APP_API_URL + post.User.UserInfo.avatar}
+                            src={
+                                process.env.REACT_APP_API_URL +
+                                post.User.UserInfo.avatar
+                            }
                         />
                         <div className="comment">
                             <TextArea
@@ -139,15 +232,32 @@ function Post({ post }) {
                                 name="text"
                                 placeholder="Viết bình luận..."
                                 autoSize={{ maxRows: 5 }}
-                                // onKeyDown={(e) => handleEnter(e)}
+                                onChange={(e) => {
+                                    setCommentText(e.target.value);
+                                }}
+                                value={commentText}
+                                onKeyDown={(e) => handleEnter(e)}
                             />
                         </div>
                     </div>
                     {showComment &&
-                        post.commentsOfPost?.length > 0 &&
-                        post.commentsOfPost.map((comment, index) => (
-                            <Comment comment={comment} />
+                        limitComments?.length > 0 &&
+                        limitComments.map((comment, index) => (
+                            <Comment
+                                listComments={listComments}
+                                comment={comment}
+                                handleCreateComment={handleCreateComment}
+                                likesOfComments={likesOfComments}
+                            />
                         ))}
+                    {limit < comments?.length && showComment && (
+                        <p
+                            className="more-comment"
+                            onClick={() => setLimit((prev) => prev + 5)}
+                        >
+                            Xem thêm bình luận
+                        </p>
+                    )}
                 </div>
             </div>
         </div>

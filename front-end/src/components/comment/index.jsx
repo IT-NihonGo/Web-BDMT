@@ -1,31 +1,71 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip } from "antd";
+import useAuth from "../../hooks/useAuth";
+import likeApi from "../../api/likeApi";
+import { getDateTime } from "../../helpers/formatDate";
 import RepliedComment from "./replied";
 import ReplyingComment from "./replying";
 import "./comment.scss";
 
-function Comment({ comment }) {
+function Comment({ listComments, comment, handleCreateComment, likesOfComments}) {
+    const { user } = useAuth();
     const [showReplying, setShowReplying] = useState(false);
     const [showRepliedComment, setShowRepliedComment] = useState(false);
+    const [childComment, setChildComment] = useState()
+    const [likeState, setLikeState] = useState(false);
+    const [listToolTips, setListToolTips] = useState([]);
+    const [numberOfLike, setNumberOfLike] = useState();
+    useEffect(() => {
+        setChildComment(listComments?.filter((item) => item.parent_id === comment.id))
+        const likeUsers = likesOfComments.filter((like) => like.comment_id === comment.id);
+        setLikeState(
+            likesOfComments.find(
+                (like) => like.User.id === user.id && like.comment_id === comment.id
+            )
+        );
+        setListToolTips(
+            likeUsers.map((like) => {
+                return like.User.name;
+            })
+        );
+        setNumberOfLike(likeUsers.length)
+    }, [listComments]);
+    const handleCreateLike = async () => {
+        const like = {
+            comment_id: comment.id,
+        };
+        await likeApi.createLikeComment(like);
+
+        setLikeState(!likeState);
+        if (likeState) {
+            setNumberOfLike(numberOfLike - 1);
+            setListToolTips(
+                listToolTips.filter((like) => like.user._id !== user.id)
+            );
+        } else {
+            setNumberOfLike(numberOfLike + 1);
+            setListToolTips((listToolTips) => [...listToolTips, user.name]);
+        }
+    };
     return (
         comment && (
             <div className="comment-container">
                 <img
                     className="img-circle"
                     alt=""
-                    src={comment.commenter.avatar}
+                    src={process.env.REACT_APP_API_URL + comment.User?.UserInfo?.avatar}
                 />
                 <div className="ms-2 col-11">
                     <div className="comment-container__text">
-                        <a className="user-name" href="/">
-                            { comment.commenter.username}
+                        <a className="user-name" style={{fontSize: "14px"}} href="/">
+                            { comment.User.name}
                         </a>
-                        <p>{comment.text}</p>
+                        <p>{comment.content}</p>
                         {
-                            comment.numberOfLike > 0 &&
+                            numberOfLike > 0 &&
                             <Tooltip 
-                                title={() => comment.listToolTips.map(item=> 
-                                    <>{item.fullName !== "" ? item.fullName : item.user.username}<br/></>
+                                title={() => listToolTips.map(item=> 
+                                    <>{item}<br/></>
                                 )}
                                 className="icon-like"
                             >
@@ -35,16 +75,19 @@ function Comment({ comment }) {
                                     src={require("../../assets/images/like.png")}
                                     alt=""
                                 />
-                                <span>{comment.numberOfLike}</span>
+                                <span>{numberOfLike}</span>
                             </Tooltip>
                         }
                     </div>
                     <div className="comment-container__reply-action ms-3">
                         <p
                             className={
-                                !comment.likeState
+                                !likeState
                                     ? "position-relative"
                                     : "position-relative txt-blue"
+                            }
+                            onClick={() =>
+                                handleCreateLike()
                             }
                         >
                             Thích
@@ -57,10 +100,10 @@ function Comment({ comment }) {
                         >
                             Phản hồi
                         </p>
-                        <label>{(comment.createdAt)}</label>
+                        <label>{getDateTime(comment.createdAt)}</label>
                     </div>
                     <div className="ms-3">
-                        {comment.commentsOfComment?.length > 0 && (
+                        {childComment?.length > 0 && (
                             <>
                                 <div className="comment-container__reply">
                                     <div className="me-3 line"> </div>
@@ -84,20 +127,21 @@ function Comment({ comment }) {
                                                 );
                                             }}
                                         >
-                                            {comment.commentsOfComment?.length} Phản hồi
+                                            {childComment?.length} Phản hồi
                                         </span>
                                     )}
                                 </div>
                                 {showRepliedComment &&
-                                    comment.commentsOfComment.map((comment) => (
+                                    childComment.map((comment) => (
                                         <RepliedComment
                                             repliedComment={comment}
+                                            likesOfComments={likesOfComments}
                                         />
                                     ))}
                             </>
                         )}
                         {showReplying && (
-                            <ReplyingComment/>
+                            <ReplyingComment listComments={listComments} parentComment={comment} handleCreateComment={handleCreateComment}/>
                         )}
                     </div>
                 </div>

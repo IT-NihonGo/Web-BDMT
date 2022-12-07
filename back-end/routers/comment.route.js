@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/', checkAuth, commentApiController.createComment)
 router.get('/post/:id', commentApiController.getListCommentsByPostID)
-router.get('/parent/:parent_id', commentApiController.getCommentsByParentID)
+router.get('/', commentApiController.getAllComments)
+
 
 module.exports = router

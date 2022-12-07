@@ -17,6 +17,7 @@ function SignIn() {
     const onFinish = async (values) => {
         try {
             values.role_id = roleId
+            console.log(values);
             const response = await auth.register(values)
             alert(response.data.message)
             navigate('/sign-in')
@@ -72,7 +73,7 @@ function SignIn() {
                     >
                         <UserOutlined className="icon" />
                         <Form.Item
-                            name="username"
+                            name="name"
                             rules={[
                                 {
                                     required: true,

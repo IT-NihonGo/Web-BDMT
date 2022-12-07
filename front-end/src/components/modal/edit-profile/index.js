@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Radio, DatePicker, Form, Input } from "antd";
 import { CameraFilled } from "@ant-design/icons";
 import moment from 'moment'
 import * as defaultImageUrl from "../../../shared/constants/defaultImageUrl"
 import uploadImageApi from "../../../api/uploadImageApi";
 import userApi from "../../../api/userApi";
+import auth from "../../../api/auth";
 import useAuth from "../../../hooks/useAuth";
 
 import "./edit-profile.scss";
 
 function EditProfile({isModalOpen, handleOpenModal }) {
-    const {user} = useAuth()
+    const {user, setUser} = useAuth()
     const [selectedImage, setSelectedImage] = useState();
 
     const onSubmit = async (values) => {
         values.birthday = values.birthday ? values.birthday.toDate() : user.UserInfo.birthday
         updateImage();
         await userApi.updateById(user.id, values)
+        const response = await auth.getAuthenticatedUser()
+        localStorage.setItem('user', JSON.stringify(response.data))
         window.location.reload(false)
     };
 

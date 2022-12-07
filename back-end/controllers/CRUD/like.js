@@ -1,6 +1,18 @@
 const likeModel = require(process.cwd() + '/models/index').Like
+const models = require(process.cwd() + "/models/index");
 
 const LikeDAO = {}
+
+const include = [
+    {
+        model: models.User,
+        attributes: {
+            exclude: ["password", "updatedAt", "createdAt", "deletedAt"],
+        },
+        as: "User",
+        required: true,
+    },
+];
 
 LikeDAO.index = async (postID) => {
     return likeModel.findAndCountAll({ where: { post_id: postID } })
@@ -28,12 +40,12 @@ LikeDAO.findByUserIDAndCommentID = async (userID, commentID) => {
     )
 }
 
-LikeDAO.findByCommentID = async (comment_id) => {
-    return likeModel.findAll({ where: { comment_id: comment_id } })
+LikeDAO.findByComment = async () => {
+    return likeModel.findAll({ include: include, where: { post_id: null } })
 }
 
-LikeDAO.findByPostID = async (post_id) => {
-    return likeModel.findAll({ where: { post_id: post_id } })
+LikeDAO.findByPost = async () => {
+    return likeModel.findAll({ include: include, where: { comment_id: null } })
 }
 
 LikeDAO.create = async (newLike) => {
