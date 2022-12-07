@@ -2,14 +2,35 @@ const {getRoleById} = require("../CRUD/role");
 const {addNewStore, getListStores, getStoreByID, updateStoreByUserID} = require('../CRUD/store')
 const role = require('./../../constant/roles')
 
+const RateDAO = require("../CRUD/rate");
+
 const index = async (request, response) => {
     try {
-        const queryResult = await getListStores()
-        return response.status(200).json(queryResult)
+        const stores = await getListStores()
+
+        let results = [];
+
+        for (let i = 0; i < stores.count; i++) {
+            let store = stores.rows[i]
+            let rateByCurrentUser = await RateDAO.findByStoreIDAndUserID(store.id, request.user.user_id)
+            if (rateByCurrentUser) {
+                results.push({
+                    storeInfo: store,
+                    rateInfo: rateByCurrentUser
+                })
+            } else {
+                results.push({
+                    storeInfo: store,
+                    rateInfo: null
+                })
+            }
+        }
+
+        return response.status(200).json(results)
     } catch (error) {
         return response.status(500).json({
             message: 'Something went wrong!',
-            error: error,
+            error: error.toString(),
         })
     }
 }

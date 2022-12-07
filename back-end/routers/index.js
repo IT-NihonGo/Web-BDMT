@@ -5,6 +5,7 @@ const store = require('./store.route')
 const comment = require('./comment.route')
 const like = require('./like.route')
 const upload = require('./upload.route')
+const rate = require('./rate.route')
 
 module.exports = {
     auth: auth,
@@ -13,6 +14,6 @@ module.exports = {
     store: store,
     comment: comment,
     like: like,
-    store: store,
-    upload: upload
+    upload: upload,
+    rate: rate
 }
