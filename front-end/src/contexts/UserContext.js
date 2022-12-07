@@ -1,7 +1,6 @@
 import axiosClient from '../api/axiosClient'
 import { createContext, useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import auth from '../api/auth'
 
 const UserContext = createContext({})
 
@@ -30,7 +29,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('token', "null")
             localStorage.setItem('user', "null")
         }
-    }, [token,  navigate])
+    }, [ token,  navigate])
 
     return (
         <UserContext.Provider value={providerValue}>

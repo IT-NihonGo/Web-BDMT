@@ -27,7 +27,7 @@ async function register(request, response) {
         models.User.create(newUser).then(async (result) => {
             const newUserInfo = {
                 user_id: result.id,
-                avatar: 'public\images\avatars\default-avatar.png',
+                avatar: `public/images/avatars/default-avatar.png`,
             }
             await models.UserInfo.create(newUserInfo)
         })

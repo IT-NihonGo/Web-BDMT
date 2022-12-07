@@ -11,5 +11,10 @@ router.post(
     checkAuth,
     authController.changePassword,
 )
+router.get(
+    '/get-authenticated-user',
+    checkAuth,
+    authController.getAuthenticatedUser,
+)
 
 module.exports = router

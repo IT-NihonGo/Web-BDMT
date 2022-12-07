@@ -6,7 +6,6 @@ import { messages } from "../../../assets/lang/messages";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import auth from '../../../api/auth'
 import useAuth from '../../../hooks/useAuth'
-import axiosClient from "../../../api/axiosClient";
 import "./sign-in.scss";
 
 function SignUp() {

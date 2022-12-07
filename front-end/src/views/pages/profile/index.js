@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Layout from "../../../components/layout";
 import Info from "../../../components/info"
 import ChangePassword from "../../../components/change-password";

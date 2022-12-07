@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth"
 
 const GuestRoute = () => {
     const { token } = useAuth()    
-    if (token !=="null") {
+    if (token !=="null" && token !=="null") {
         return <Navigate to="/" />;
     }
     return <Outlet />;

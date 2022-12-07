@@ -6,7 +6,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import EditIcon from "@mui/icons-material/Edit";
 import HomeIcon from "@mui/icons-material/Home";
 import StoreIcon from "@mui/icons-material/Store";
@@ -52,7 +51,6 @@ export default function SideMenu(props) {
             icon: <LogoutRoundedIcon />,
             title: "Logout",
             onClick: () => {
-              console.log(123);
               setToken("null")
               setUser("null")
               navigate("/sign-in")
@@ -63,7 +61,6 @@ export default function SideMenu(props) {
     const path = router.pathname;
     const [selected, setSelected] = useState(path.split("/")[1] || "");
     const handleClick = (title) => {
-      console.log(123);
         title.toLowerCase() !== selected.toLowerCase()
             ? setSelected(title)
             : setSelected("");

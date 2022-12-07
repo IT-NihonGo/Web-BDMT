@@ -22,7 +22,18 @@ const createComment = async (request, response) => {
 
 const getCommentsByPostID = async (request, response) => {
     try {
-        const comments = await CommentDAO.findByPostIDAndParentID(request.params.id, null)
+        const comments = await CommentDAO.findByPostID(request.params.id)
+        return response.status(201).json(comments)
+    } catch (err) {
+        return response.status(500).json({
+            message: 'Something went wrong!',
+            error: err,
+        })
+    }
+}
+const getAllComments = async (request, response) => {
+    try {
+        const comments = await CommentDAO.index()
         return response.status(201).json(comments)
     } catch (err) {
         return response.status(500).json({
@@ -32,20 +43,10 @@ const getCommentsByPostID = async (request, response) => {
     }
 }
 
-const getCommentsByParentID = async (request, response) => {
-    try {
-        const comments = await CommentDAO.findByParentID(request.params.parent_id)
-        return response.status(201).json(comments)
-    } catch (err) {
-        return response.status(500).json({
-            message: 'Something went wrong!',
-            error: err,
-        })
-    }
-}
 
 module.exports = {
     createComment: createComment,
+    getAllComments: getAllComments,
     getListCommentsByPostID: getCommentsByPostID,
-    getCommentsByParentID: getCommentsByParentID
 }
+
