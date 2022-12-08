@@ -8,7 +8,7 @@ const app = express()
 app.use(
     cors({
         credentials: true,
-        origin: ["*"],
+        origin: ["http://103.197.184.66:9000"],
     }),
 )
 
