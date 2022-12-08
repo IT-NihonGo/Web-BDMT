@@ -2,7 +2,7 @@ import axios from 'axios'
 import queryString from 'query-string'
 
 const axiosClient = axios.create({
-    baseURL: "http://103.197.184.66:9000",
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {
       'Content-Type': 'multipart/form-data'
     }
