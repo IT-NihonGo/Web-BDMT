@@ -11,37 +11,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Layout from "../../../components/layout";
 import StoreItem from "../../../components/store-item";
 import "./store.scss";
+import storeApi from "../../../api/storeApi";
+import {Modal,Rate } from 'antd'
 
-const StoreItemSample = [
-  {
-    avatar:
-        "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/317076314_1769032306828805_5106915471589013829_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OB319lJRjDgAX9ZBEz_&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCb1ro1sSR6dKM3B_ERfSt6TTPbqIm2spMk4KdX12ym6w&oe=6389A0E3",
-    title: "AAAAAAAA",
-    address: "126B Đường 2 Tháng 9, Q. Hải Châu, TP. Đà Nẵng",
-  },
-  {
-    avatar:
-        "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/317076314_1769032306828805_5106915471589013829_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OB319lJRjDgAX9ZBEz_&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCb1ro1sSR6dKM3B_ERfSt6TTPbqIm2spMk4KdX12ym6w&oe=6389A0E3",
-    title: "AAAAAAAA",
-    address: "126B Đường 2 Tháng 9, Q. Hải Châu, TP. Đà Nẵng",
-  },
-  {
-    avatar:
-        "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/317076314_1769032306828805_5106915471589013829_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OB319lJRjDgAX9ZBEz_&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCb1ro1sSR6dKM3B_ERfSt6TTPbqIm2spMk4KdX12ym6w&oe=6389A0E3",
-    title: "AAAAAAAA",
-    address: "126B Đường 2 Tháng 9, Q. Hải Châu, TP. Đà Nẵng",
-  },
-  {
-    avatar:
-        "https://scontent.fsgn2-8.fna.fbcdn.net/v/t39.30808-6/317076314_1769032306828805_5106915471589013829_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=OB319lJRjDgAX9ZBEz_&_nc_ht=scontent.fsgn2-8.fna&oh=00_AfCb1ro1sSR6dKM3B_ERfSt6TTPbqIm2spMk4KdX12ym6w&oe=6389A0E3",
-    title: "AAAAAAAA",
-    address: "126B Đường 2 Tháng 9, Q. Hải Châu, TP. Đà Nẵng",
-  },
-];
 
 const Menu = (props) => {
   return (
@@ -108,6 +84,24 @@ export const Store = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const openMenu = Boolean(anchorEl);
+  const [showModalRating, setShowModalRating] = useState(false)
+
+  const [listPosts, setListStore] = useState([]);
+
+  useEffect(() => {
+    storeApi.getAll().then((response) => {
+      setListStore(
+            response.data.map((store) => ({
+              id: store.id,
+              name: store.name,
+              address: store.address,
+              rateAmount: store.rateAmount,
+              user_id: store.user_id
+            }))
+        );
+    });
+  
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -123,6 +117,10 @@ export const Store = () => {
   const handleClosePopup = () => {
     setOpenPopup(false);
   };
+
+  const handleCancel = () => {
+    setShowModalRating(false)
+  }
 
   return (
       <Layout>
@@ -142,11 +140,32 @@ export const Store = () => {
           />
         </div>
 
+        <Modal
+          className="package-list-modal"
+          visible={showModalRating}
+          onCancel={handleCancel}
+          footer={null}
+      > 
+      <h1 className="modal-header">Vui lòng đánh giá của hàng</h1>
+      <div className="modal-rate">
+        <Rate value={1}></Rate>
+      </div> 
+      <div className="modal-btn">
+        <button
+            className="modal-btn__cancel"
+            onClick={(e) => setShowModalRating(false)}
+        >
+            Thoát
+        </button>
+        <button className="modal-btn__ok">Đánh giá</button>
+      </div>
+      </Modal>
+
         <Grid container spacing={2} className="grid-container">
-          {StoreItemSample.map((item) => (
-              <Grid item xs={4}>
-                <StoreItem avatar={item.avatar}></StoreItem>
-              </Grid>
+          {listPosts.map((store) => (
+              <div onClick={(e)=> setShowModalRating(true)}>
+                <StoreItem store={store} onRowClick></StoreItem>
+              </div>
           ))}
         </Grid>
       </Layout>
