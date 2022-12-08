@@ -2,19 +2,20 @@ import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Form, Input } from 'antd'
 import {messages} from '../../assets/lang/messages'
+import auth from '../../api/auth'
 import './change-password.scss'
 
 function ChangePassword() {
     const navigate = useNavigate()
     const handleSubmit = async (values) => {
-        // try {
-        //     const response = await auth.changePassword(values)
-        //     alert(response.data.message)
-        //     navigate(`/profile/${user.id}`)
-        // } catch (error) {
-        //     //TODO: hiển bị thông báo theo từng error code (error.request.status === 404)
-        //     alert(error.response.data.message)
-        // }
+        try {
+            const response = await auth.changePassword(values)
+            alert(response.data.message)
+            navigate(`/profile`)
+            window.location.reload(false)
+        } catch (error) {
+            alert(error.response.data.message)
+        }
     }
     return (
         <div className="change-password-content">
