@@ -1,7 +1,26 @@
 const storeModel = require(process.cwd() + '/models/index').Store
+const models = require(process.cwd() + "/models/index");
+
+const include = [
+    {
+        model: models.User,
+        attributes: {
+            exclude: ["password", "updatedAt", "createdAt", "deletedAt"],
+        },
+        include: [
+            {
+                model: models.UserInfo,
+                attributes: { exclude: ["createdAt", "updatedAt"] },
+                required: true,
+            },
+        ],
+        as: "User",
+        required: true,
+    },
+];
 
 async function index() {
-    return storeModel.findAndCountAll()
+    return storeModel.findAll({include: include})
 }
 
 async function findByID(id) {

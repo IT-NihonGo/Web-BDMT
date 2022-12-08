@@ -1,39 +1,35 @@
 const {getRoleById} = require("../CRUD/role");
 const {addNewStore, getListStores, getStoreByID, updateStoreByUserID} = require('../CRUD/store')
-const role = require('./../../constant/roles')
+const { getRateByStore, getRateByStoreIdAndUserId, createRate, updateRateById } = require('../CRUD/rate')
 
-const RateDAO = require("../CRUD/rate");
+const role = require('./../../constant/roles')
 
 const index = async (request, response) => {
     try {
-        const stores = await getListStores()
+        var stores = await getListStores()
 
         let results = [];
-
-        for (let i = 0; i < stores.count; i++) {
-            let store = stores.rows[i]
-            let rateByCurrentUser = await RateDAO.findByStoreIDAndUserID(store.id, request.user.user_id)
-            if (rateByCurrentUser) {
-                results.push({
-                    "id": store.id,
-                    "name": store.name,
-                    "address": store.address,
-                    "user_id": store.user_id,
-                    "createdAt": store.createdAt,
-                    "updatedAt": store.createdAt,
-                    "rateAmount": rateByCurrentUser.amount
-                })
-            } else {
-                results.push({
-                    "id": store.id,
-                    "name": store.name,
-                    "address": store.address,
-                    "user_id": store.user_id,
-                    "createdAt": store.createdAt,
-                    "updatedAt": store.createdAt,
-                    "rateAmount": 0
-                })
+        for (let i = 0; i < stores.length; i++) {
+            let listRate = await getRateByStore(stores[i].id)
+            let rate_amount = 0
+            if(listRate.length > 0){
+                rate_amount = parseFloat((listRate.map(item => item.amount).reduce((a, b) => a + b) / listRate.length).toFixed(1))
             }
+            results.push({
+                id: stores[i].id,
+                name: stores[i].name,
+                address: stores[i].address,
+                rate_amount: rate_amount,
+                User: {
+                    id: stores[i].User.id,
+                    name: stores[i].User.name,
+                    email: stores[i].User.email,
+                    UserInfo: {
+                        avatar: stores[i].User.UserInfo.avatar,
+                        phone_number: stores[i].User.UserInfo.phone_number,
+                    }
+                }
+            })
         }
 
         return response.status(200).json(results)
@@ -118,8 +114,40 @@ async function updateById(request, response) {
     }
 }
 
+const ratingStore = async (req, res) => {
+    try {
+        // If user have rated for this store
+        const rate = await getRateByStoreIdAndUserId(req.body.store_id, req.user.user_id)
+        const _rate = {
+            amount: req.body.amount,
+            store_id: req.body.store_id,
+            user_id: req.user.user_id
+        }
+        if (rate) {
+            console.log(_rate);
+            await updateRateById(_rate, rate.id)
+            return res.status(200).json({
+                message: "Bạn đã đánh giá cho cửa hàng " + req.body.amount + " sao!"
+            })
+        }
+
+        // // If user have not rated for this store
+        await createRate(_rate)
+        return res.status(200).json({message: "Bạn đã đánh giá cho cửa hàng " + req.body.amount + " sao!"})
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: 'Something went wrong!',
+            error: error.toString(),
+        })
+
+    }
+}
+
 module.exports = {
     getAllStores: index,
-    create: create,
-    updateById: updateById
+    createStore: create,
+    updateStoreById: updateById,
+    ratingStore: ratingStore,
 }

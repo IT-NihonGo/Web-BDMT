@@ -22,7 +22,6 @@ app.use('/api/users', routes.user)
 app.use('/api/stores', routes.store)
 app.use('/api/comments', routes.comment)
 app.use('/api/likes', routes.like)
-app.use('/api/rates', routes.rate)
 
 app.use('/api/upload', routes.upload)
 
