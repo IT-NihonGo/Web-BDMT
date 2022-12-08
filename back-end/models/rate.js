@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize')
+const { toLocaleString } = require(process.cwd() + '/helpers/datetime')
 module.exports = (sequelize, DataTypes) => {
   class Rate extends Model {
     static associate(models) {
@@ -13,8 +12,24 @@ module.exports = (sequelize, DataTypes) => {
     amount: DataTypes.INTEGER,
     store_id: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+    createdAt: {
+      type: DataTypes.DATE,
+      get: function () {
+          if (this.getDataValue('createdAt')) {
+              return toLocaleString(this.getDataValue('createdAt'))
+          }
+          return null
+          },
+      },
+    updatedAt: {
+          type: DataTypes.DATE,
+          get: function () {
+              if (this.getDataValue('updatedAt')) {
+                  return toLocaleString(this.getDataValue('updatedAt'))
+              }
+              return null
+          },
+      },
   }, {
     sequelize,
     modelName: 'Rate',

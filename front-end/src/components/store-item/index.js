@@ -4,6 +4,7 @@ import { Rate } from "antd";
 import styles from "./store-item.module.scss";
 
 const StoreItem = (props) => {
+
     return (
         <Card className={styles.CardContainer}>
             <CardHeader
@@ -13,16 +14,16 @@ const StoreItem = (props) => {
                 title="fdsdsfsdf"
                 className={styles.CardHeader}
             ></CardHeader>
-            <div className={styles.Address}>
+            <div className={props.Address}>
                 <LocationOnIcon />
-                <Typography>effef</Typography>
+                <Typography>{props.store.address}</Typography>
             </div>
             <CardMedia
                 component="img"
                 alt="Paella dish"
                 image="https://vcdn1-giadinh.vnecdn.net/2021/01/15/bun-1-5687-1610696220.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=0B792FtGSMdB5rk6BhnWqg"
             ></CardMedia>
-            <Rate value={3}></Rate>
+            <Rate value={props.store.rateAmount}></Rate>
         </Card>
     );
 };
