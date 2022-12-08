@@ -13,6 +13,10 @@ const auth = {
         const url = '/api/auth/get-authenticated-user'
         return axiosClient.get(url)
     },
+    changePassword: (credentials) => {
+        const url = '/api/auth/change-password'
+        return axiosClient.post(url, credentials)
+    },
 }
 
 export default auth
