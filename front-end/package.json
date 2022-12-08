@@ -30,7 +30,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "build:prod": "env-cmd -f ./environments/.env.production npm run build",
+        "build:prod": "env-cmd -f .env.production npm run build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "format-code": "prettier --single-quote --semi false --trailing-comma all --tab-width 4 --write \"**/*.{js,json,css,scss}\""
