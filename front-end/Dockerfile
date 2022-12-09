@@ -8,6 +8,7 @@ COPY package.json ./
 
 COPY package-lock.json ./
 
+RUN npm config set legacy-peer-deps true
 # RUN npm ci ?
 RUN npm i
 
