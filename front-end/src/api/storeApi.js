@@ -9,6 +9,10 @@ const storeApi  = {
     //     const url = `/api/posts/`
     //     return axiosClient.post(url,credentials)
     // },
+    ratingStore: (credentials) => {
+        const url = `/api/stores/rate`
+        return axiosClient.post(url,credentials)
+    },
 }
 
 export default storeApi 

@@ -6,7 +6,6 @@ import AuthenticatedRoute from "./authenticated-route"
 import SignUp from "../pages/sign-up";
 import SignIn from "../pages/sign-in";
 import { Home } from "../pages/home";
-import { PostApproval } from "../pages/PostApproval";
 import Profile from "../pages/profile";
 import { Store } from "../pages/store";
 
@@ -21,7 +20,6 @@ function AllRoutes() {
                 element={<AuthenticatedRoute/>}
             >
                 <Route path="" element={<Home />} />
-                <Route path="/post-approval" element={<PostApproval />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/store" element={<Store />} />
             </Route>
@@ -29,3 +27,6 @@ function AllRoutes() {
     );
 }
 export default AllRoutes;
+
+
+

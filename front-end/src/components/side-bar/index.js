@@ -33,11 +33,6 @@ export default function SideMenu(props) {
             path: "/",
         },
         {
-            icon: <EditIcon />,
-            title: "Post approval",
-            path: "/postApproval",
-        },
-        {
             icon: <PersonRoundedIcon />,
             title: "User",
             path: "/profile",

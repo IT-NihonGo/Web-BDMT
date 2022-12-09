@@ -50,3 +50,14 @@
     height: 40px;
   }
 }
+.grid-container{
+  justify-content: center;
+  flex-direction: column !important;
+}
+.action{
+  position: absolute;
+  right: 30px;
+  button{
+
+  }
+}

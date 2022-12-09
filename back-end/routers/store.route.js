@@ -1,10 +1,11 @@
-const express = require('express')
-const storeApiController = require('../controllers/api/store.controller')
+const express = require("express");
+const { getAllStores, createStore, updateStoreById, ratingStore } = require("../controllers/api/store.controller");
 const checkAuth = require("../middleware/check-auth");
 const router = express.Router();
 
-router.get('/', checkAuth, storeApiController.getAllStores)
-router.post('/', storeApiController.create)
-router.put('/:id', storeApiController.updateById)
+router.get("/", getAllStores);
+router.post("/", checkAuth, createStore);
+router.put("/:id", checkAuth, updateStoreById);
+router.post("/rate", checkAuth, ratingStore);
 
-module.exports = router
+module.exports = router;
