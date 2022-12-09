@@ -12,7 +12,8 @@ jobs:
       DOCKER_TAG: latest
     executor: docker/docker
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - checkout
       - docker/check:
           docker-username: DOCKER_USER
