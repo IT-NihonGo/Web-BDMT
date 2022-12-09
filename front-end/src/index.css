@@ -48,6 +48,9 @@ a:hover{
   color: black;
   text-decoration: underline;
 }
+.txt-green{
+  color: #387a62 ;
+}
 .line{
   height: 1px;
   width: 30px;

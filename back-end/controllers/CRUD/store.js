@@ -1,4 +1,4 @@
-const storeModel = require(process.cwd() + '/models/index').Store
+const storeModel = require(process.cwd() + "/models/index").Store;
 const models = require(process.cwd() + "/models/index");
 
 const include = [
@@ -20,23 +20,26 @@ const include = [
 ];
 
 async function index() {
-    return storeModel.findAll({include: include})
+    return storeModel.findAll({
+        order: [["createdAt", "DESC"]],
+        include: include,
+    });
 }
 
 async function findByID(id) {
-    return storeModel.findOne({ where: { id: id } })
+    return storeModel.findOne({ where: { id: id } });
 }
 
 async function create(newStore) {
-    return storeModel.create(newStore)
+    return storeModel.create(newStore);
 }
 
 async function update(updateStore, id) {
-    return storeModel.update(updateStore, { where: { id: id } })
+    return storeModel.update(updateStore, { where: { id: id } });
 }
 
 async function destroy(userId) {
-    return storeModel.destroy({ where: { user_id: userId } })
+    return storeModel.destroy({ where: { user_id: userId } });
 }
 
 module.exports = {
@@ -45,4 +48,4 @@ module.exports = {
     addNewStore: create,
     updateStoreByUserID: update,
     deleteUserInfoByUserId: destroy,
-}
+};

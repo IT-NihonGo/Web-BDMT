@@ -45,10 +45,13 @@ const StoreItem = ({ store }) => {
                             <EmailIcon className="icon" />
                             {store.User.email}
                         </div>
-                        <div className="store-info">
-                            <PhoneIcon className="icon" />
-                            {store.User.UserInfo.phone_number}
-                        </div>
+                        {
+                            store.User.UserInfo.phone_number &&
+                            <div className="store-info">
+                                <PhoneIcon className="icon" />
+                                {store.User.UserInfo.phone_number}
+                            </div>
+                        }
                         <div className="store-info">
                             <span onClick={() => setShowModalRating(true)}>
                                 <Rate allowHalf defaultValue={store.rate_amount} />

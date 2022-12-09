@@ -6,7 +6,7 @@ const objectCleaner = require(process.cwd() + '/helpers/object-cleaner')
 const include = [
     {
         model: models.Role,
-        attributes: ['name'],
+        attributes: { exclude: ['updatedAt', 'createdAt'] },
         required: true,
     },
     {
