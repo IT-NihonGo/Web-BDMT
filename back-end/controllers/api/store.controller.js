@@ -44,7 +44,7 @@ const index = async (request, response) => {
 async function create(request, response) {
     try {
         // check role is existed in db
-        const dbRole = await getRoleById(request.body.role_id)
+        const dbRole = await getRoleById(request.user.role_id)
         if (!dbRole) {
             return response.status(409).json({
                 message: 'Invalid role!',
@@ -52,7 +52,7 @@ async function create(request, response) {
         }
 
         // check role is STORE_OWNER or ADMIN
-        if (request.body.role_id === role.REVIEWER) {
+        if (request.user.role_id === role.REVIEWER) {
             return response.status(409).json({
                 message: 'You dont have permission to create store!',
             })
@@ -62,7 +62,7 @@ async function create(request, response) {
         const newStore = {
             name: request.body.name,
             address: request.body.address,
-            user_id: request.body.user_id,
+            user_id: request.user.user_id,
         }
         await addNewStore(newStore)
 
