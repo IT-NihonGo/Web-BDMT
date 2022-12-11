@@ -17,6 +17,14 @@ module.exports = {
     database: process.env.DB_REMOTE_DBNAME,
     dialect: 'mysql', // Dialect needs to be explicitly supplied
   },
+  vps: {
+    host: process.env.DB_VPS_HOST,
+    username: process.env.DB_VPS_USERNAME,
+    password: process.env.DB_VPS_PASSWORD,
+    port: process.env.DB_VPS_PORT,
+    database: process.env.DB_VPS_DBNAME,
+    dialect: 'mysql', // Dialect needs to be explicitly supplied
+  },
   production: {
     host: process.env.DB_PRODUCTION_HOST,
     username: process.env.DB_PRODUCTION_USERNAME,
