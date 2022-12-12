@@ -47,7 +47,7 @@ jobs:
           fingerprints:
             - $SSH_KEY_FINGERPRINT
       - run: sudo apt-get install sshpass
-      - run: sshpass -p *=4Y8-Yf72TdZ1r9 ssh -o StrictHostKeyChecking=no $DEPLOYED_USER@$DEPLOYED_SERVER -p 4433 'cd it-nihongo/ & ./deploy.sh'
+      - run: sshpass -p *=4Y8-Yf72TdZ1r9 ssh -o StrictHostKeyChecking=no $DEPLOYED_USER@$DEPLOYED_SERVER -p 4433 'cd it-nihongo; ./deploy.sh'
 workflows:
   commit:
     jobs:
