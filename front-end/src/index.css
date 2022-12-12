@@ -51,6 +51,9 @@ a:hover{
 .txt-green{
   color: #387a62 ;
 }
+.txt-red{
+  color: red;
+}
 .line{
   height: 1px;
   width: 30px;

@@ -124,7 +124,6 @@ const ratingStore = async (req, res) => {
             user_id: req.user.user_id
         }
         if (rate) {
-            console.log(_rate);
             await updateRateById(_rate, rate.id)
             return res.status(200).json({
                 message: "Bạn đã đánh giá cho cửa hàng " + req.body.amount + " sao!"

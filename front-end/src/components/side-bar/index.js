@@ -35,7 +35,7 @@ export default function SideMenu(props) {
         {
             icon: <PersonRoundedIcon />,
             title: "User",
-            path: "/profile",
+            path: "/accounts",
         },
         {
             icon: <StoreIcon />,
