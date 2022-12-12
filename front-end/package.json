@@ -36,7 +36,6 @@
         "eject": "react-scripts eject",
         "format-code": "prettier --single-quote --semi false --trailing-comma all --tab-width 4 --write \"**/*.{js,json,css,scss}\""
     },
-    "proxy": "http://103.197.184.66:3000",
     "eslintConfig": {
         "extends": [
             "react-app",
