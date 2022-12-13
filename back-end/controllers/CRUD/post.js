@@ -32,6 +32,18 @@ async function showByPostId(postId) {
     return postModel.findOne({ where: { id: postId } });
 }
 
+async function showByPostStatus(status) {
+    if (status === "") {
+        return postModel.findAll({
+            order: [["createdAt", "DESC"]],
+        });
+    }
+    return postModel.findAll({
+        where: { status: status },
+        order: [["createdAt", "DESC"]],
+    });
+}
+
 async function create(newPost) {
     return postModel.create(newPost);
 }
@@ -50,4 +62,5 @@ module.exports = {
     addNewPost: create,
     updatePostByPostId: update,
     deletePostByPostId: destroy,
+    showByPostStatus: showByPostStatus
 };
