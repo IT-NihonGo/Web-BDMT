@@ -24,7 +24,7 @@ module.exports = {
           },
           {
               user_id: 3,
-              avatar: 'public/images/avatars/parking-lot/default-avatar.png',
+              avatar: 'public/images/avatars/user/default-avatar.png',
               birthday: '2001/04/21',
               address: 'Đà Nẵng',
               phone_number: '0123456789',
@@ -32,7 +32,7 @@ module.exports = {
           },
           {
               user_id: 4,
-              avatar: 'public/images/avatars/parking-lot/default-avatar.png',
+              avatar: 'public/images/avatars/user/default-avatar.png',
               birthday: '2001/05/06',
               address: 'Đà Nẵng',
               phone_number: '0123456789',
@@ -40,7 +40,7 @@ module.exports = {
           },
           {
               user_id: 5,
-              avatar: 'public/images/avatars/parking-lot/default-avatar.png',
+              avatar: 'public/images/avatars/user/default-avatar.png',
               birthday: '2001/09/28',
               address: 'Đà Nẵng',
               phone_number: '0123456789',
@@ -48,7 +48,7 @@ module.exports = {
           },
           {
             user_id: 6,
-            avatar: 'public/images/avatars/parking-lot/default-avatar.png',
+            avatar: 'public/images/avatars/user/default-avatar.png',
             birthday: '2001/09/28',
             address: 'Đà Nẵng',
             phone_number: '0123456789',

@@ -44,7 +44,7 @@ async function checkRoleStore(request, response, next) {
 
 async function checkRoleAdmin(request, response, next) {
     try {
-        const requestRole = request.userData.role
+        const requestRole = request.user.role_id
 
         // Check if request user is admin or not
         if (requestRole != ADMIN_ROLE) {

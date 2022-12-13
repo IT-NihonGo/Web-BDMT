@@ -18,6 +18,7 @@ async function index(request, response) {
 
         return response.status(200).json(queryResult)
     } catch (error) {
+        console.log(error);
         return response.status(500).json({
             message: 'Something went wrong!',
             error: error,
@@ -74,10 +75,10 @@ async function create(request, response) {
         }
 
         // Add new user to database
-        addNewUser(newUser).then(async (result) => {
+        addNewUser(newUser).then(async (user) => {
             // Create new user info
             const newUserInfo = {
-                user_id: result.id,
+                user_id: user.id,
                 gender: request.body.gender,
                 birthday: request.body.birthday,
                 address: request.body.address,
@@ -88,6 +89,7 @@ async function create(request, response) {
 
             return response.status(201).json({
                 message: 'Create user successfully!',
+                user,
             })
         })
     } catch (error) {
