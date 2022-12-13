@@ -1,5 +1,6 @@
 const auth = require('./auth.route')
 const post = require('./post.route')
+const postAdmin = require('./post.admin.route')
 const user = require('./user.route')
 const store = require('./store.route')
 const comment = require('./comment.route')
@@ -14,4 +15,5 @@ module.exports = {
     comment: comment,
     like: like,
     upload: upload,
+    postAdmin: postAdmin
 }
