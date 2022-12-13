@@ -7,6 +7,6 @@ const {
 } = require("../controllers/admin/post.controller.js");
 
 router.patch('/:id/approval', checkAuth, approval)
-router.get('/status', checkAuth, getPostsByStatus)
+router.get('/status/:status', checkAuth, getPostsByStatus)
 
 module.exports = router;

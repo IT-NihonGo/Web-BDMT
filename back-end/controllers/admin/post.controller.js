@@ -49,7 +49,7 @@ const approval = async (request, response) => {
 
 const getPostsByStatus = async (request, response) => {
     const role = request.user.role_id
-    const status = request.body.status
+    const status = request.params.status
 
     // Check permission
     if (role !== ROLE.ADMIN) {
