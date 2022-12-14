@@ -1,13 +1,20 @@
 const models = require('../../models/index')
-const STATUS = require("./../../constant/status")
-const ROLE = require("./../../constant/roles")
-
+const REVIEWER = 3
+const STORE_OWNER = 3
+const ADMIN = 3
 const {
     getAllPost
 } = require('../CRUD/post')
 const index = async (req, res) => {
     try {
-        const posts = await getAllPost()
+        const params = {
+            txt_search: req.query.txt_search
+                ? req.query.txt_search.trim()
+                : '',
+        }
+
+        console.log("params",params);
+        const posts = await getAllPost(params)
         return res.status(200).json(posts)
     } catch (error) {
         console.log(error);
@@ -49,7 +56,6 @@ const create = async (req, res) => {
             store_id: req.body.store_id,
             title: req.body.title,
             content: req.body.content,
-            status: STATUS.PENDING
         }
         await models.Post.create(newPost)
         return res.status(201).json({
@@ -73,7 +79,7 @@ const update = async (req, res) => {
             })
         }
         
-        if (req.user.role_id !== ROLE.ADMIN && req.user.user_id !== req.body.user_id){
+        if (req.user.role_id !== ADMIN && req.user.user_id !== req.body.user_id){
             return res.status(404).json({
                 message: 'Can not update this post!',
             })
@@ -102,7 +108,7 @@ const destroy = async (req, res) => {
                 message: 'Post not found!',
             })
         }
-        if (req.user.role_id !== ROLE.ADMIN && req.user.user_id !== req.body.user_id){
+        if (req.user.role_id !== ADMIN && req.user.user_id !== req.body.user_id){
             return res.status(404).json({
                 message: 'Can not delete this post!',
             })
@@ -118,12 +124,11 @@ const destroy = async (req, res) => {
         })
     }
 };
-
 module.exports = {
     getAllPosts: index,
     getPostById: showById,
     getPostByUserId: showByUserId,
     createPost: create,
     updatePostById: update,
-    deletePostById: destroy
+    deletePostById: destroy,
 }
