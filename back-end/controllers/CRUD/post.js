@@ -54,6 +54,7 @@ async function showByPostStatus(status) {
         });
     }
     return postModel.findAll({
+        include: include,
         where: { status: status },
         order: [["createdAt", "DESC"]],
     });

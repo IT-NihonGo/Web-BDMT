@@ -9,6 +9,7 @@ import { Home } from "../pages/home";
 import Profile from "../pages/profile";
 import { Store } from "../pages/store";
 import Accounts from "../pages/account-list";
+import ApprovePost from "../pages/approve-post";
 
 function AllRoutes() {
     return (
@@ -21,6 +22,7 @@ function AllRoutes() {
                 element={<AuthenticatedRoute/>}
             >
                 <Route path="" element={<Home />} />
+                <Route path="approve-post" element={<ApprovePost />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/rating-stores" element={<Store />} />
                 <Route path="/stores-owner/:id" element={<Store />} />

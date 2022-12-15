@@ -54,7 +54,7 @@
   justify-content: center;
   flex-direction: column !important;
 }
-.action{
+.action-add{
   position: absolute;
   right: 30px;
   display: flex;
@@ -64,19 +64,26 @@
   button{
     border-radius: 10px;
   }
+  
+}
+.action-search{
+  position: absolute;
+  left: 250px;
+  top: 92px;
   input{
     border-radius: 10px;
-    border: 2px solid #489d7e ;
+    border: 1px solid #489d7e ;
     padding-left: 40px;
     padding-right: 15px;
     outline: none;
-    height: 36px;
-    width: 300px;
+    height: 40px;
+    width: 260px;
   }
   .icon-search{
     position: absolute;
-    top: 7px;
+    top: 10px;
     left: 10px;
     font-size: 20px;
+    color: #489d7e;
   }
 }

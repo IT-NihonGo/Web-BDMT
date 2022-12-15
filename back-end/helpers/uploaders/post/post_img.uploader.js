@@ -12,7 +12,6 @@ const storage = multer.diskStorage({
         cb(null, destination);
     },
     filename: function (request, file, cb) {
-        console.log(path.extname(file.originalname));
         cb(null, `post${request.params.id}-${file.originalname}${path.extname(file.originalname)}`)
     },
 });
