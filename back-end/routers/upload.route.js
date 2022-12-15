@@ -18,7 +18,6 @@ router.post(
 router.post(
     '/post/image/:id',
     checkAuth,
-    checkOwnerMiddleware.checkAccountOwner,
     uploadHelpers.postImgUploader.array('post-img', 10),
     uploadControllers.postImageController,
 )

@@ -7,6 +7,7 @@ import likeApi from "../../../api/likeApi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "antd/dist/antd.css";
+import * as postStatus from "../../../shared/constants/postStatus";
 import commentApi from "../../../api/commentApi";
 
 export const Home = () => {
@@ -15,9 +16,9 @@ export const Home = () => {
     const [likesOfComments, setLikesOfComments] = useState();
     const [listComments, setListComments] = useState();
     useEffect(() => {
-        postApi.getAll().then((response) => {
+        postApi.getListByStatus(postStatus.APPROVED).then((response) => {
             setListPost(
-                response.data.rows.map((post) => ({
+                response.data.map((post) => ({
                     id: post.id,
                     title: post.title,
                     content: post.content,

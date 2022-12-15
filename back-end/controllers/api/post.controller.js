@@ -4,7 +4,8 @@ const REVIEWER = 3
 const STORE_OWNER = 3
 const ADMIN = 3
 const {
-    getAllPost
+    getAllPost,
+    showByPostStatus
 } = require('../CRUD/post')
 const index = async (req, res) => {
     try {
@@ -24,7 +25,61 @@ const index = async (req, res) => {
         })
     }
 };
+const approvePost = async (request, response) => {
+    const postID = request.params.id
+    const status = request.body.status
+    // Check status
+    if (status !== STATUS.APPROVED && status !== STATUS.REJECTED) {
+        return response.status(400).json({
+            message: 'invalid status!'
+        })
+    }
 
+    // Check post exist
+    const post = await models.Post.findByPk(postID);
+    if (!post) {
+        return response.status(404).json({
+            message: 'Post not found!',
+        })
+    }
+
+    // Update status
+    try {
+        models.Post.update({status: status}, { where: { id: postID } })
+        const message = status === STATUS.APPROVED ? 'Approve post successfully!' : 'Rejected post successfully!'
+        return response.status(200).json({
+            message: message,
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: 'Something went wrong !',
+            error: error.toString(),
+        })
+    }
+}
+
+const showByStatus = async (request, response) => {
+    const role = request.user.role_id
+    const status = request.params.status
+
+    // Check status
+    if (status !== STATUS.APPROVED && status !== STATUS.REJECTED && status !== STATUS.PENDING && status !== "") {
+        return response.status(400).json({
+            message: 'invalid status!'
+        })
+    }
+
+    // Get list
+    try {
+        const posts = await showByPostStatus(status)
+        return response.status(200).json(posts)
+    } catch (error) {
+        return response.status(500).json({
+            message: 'Something went wrong!',
+            error: error.toString(),
+        })
+    }
+}
 const showById = async (req, res) => {
     try {
         const post = await models.Post.findByPk(req.params.id)
@@ -129,9 +184,11 @@ const destroy = async (req, res) => {
 };
 module.exports = {
     getAllPosts: index,
-    getPostById: showById,
-    getPostByUserId: showByUserId,
+    getPostsById: showById,
+    getPostsByStatus: showByStatus,
+    getPostsByUserId: showByUserId,
     createPost: create,
     updatePostById: update,
     deletePostById: destroy,
+    approvePost: approvePost,
 }

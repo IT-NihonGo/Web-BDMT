@@ -13,6 +13,7 @@ import * as roles from "../../../shared/constants/role";
 
 export const Store = () => {
     const { id } = useParams();
+    const { user } = useAuth();
     const [showModal, setShowModal] = useState(false);
     const [listPosts, setListStore] = useState([]);
     const [textSearch, setTextSearch] = useState();
@@ -20,13 +21,9 @@ export const Store = () => {
         id: id,
         txt_search: "",
     });
-    const { user } = useAuth();
     useEffect(() => {
-        if(id){
-            setParams({...params, id: id})
-        }
+        setParams({ ...params, id: id });
     }, [id]);
-
     useEffect(() => {
         storeApi.getListStores(params).then((response) => {
             setListStore(
@@ -55,19 +52,8 @@ export const Store = () => {
 
     return (
         <Layout>
-            <div className="action">
-                <div style={{ position: "relative" }}>
-                    <SearchIcon className="icon-search" />
-                    <input
-                        placeholder="Tên, địa chỉ,..."
-                        onChange={(e) =>
-                            setParams({
-                                ...params,
-                                txt_search: e.target.value,
-                            })
-                        }
-                    />
-                </div>
+           
+            <div className="action-add">
                 {(roles.STORE_OWNER === user.role_id ||
                     roles.ADMIN === user.role_id) && (
                     <Button
@@ -83,7 +69,18 @@ export const Store = () => {
                     handleCloseModal={handleCloseModal}
                 />
             </div>
-
+            <div className="action-search" >
+                <SearchIcon className="icon-search" />
+                <input
+                    placeholder="Tên, địa chỉ,..."
+                    onChange={(e) =>
+                        setParams({
+                            ...params,
+                            txt_search: e.target.value,
+                        })
+                    }
+                />
+            </div>
             <Grid container spacing={2} className="grid-container">
                 {listPosts.map((store) => (
                     <StoreItem store={store} onRowClick></StoreItem>
