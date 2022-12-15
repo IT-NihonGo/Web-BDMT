@@ -21,8 +21,8 @@ function AllRoutes() {
             <Route
                 element={<AuthenticatedRoute/>}
             >
-                <Route path="" element={<Home />} />
-                <Route path="approve-post" element={<ApprovePost />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/approve-post" element={<ApprovePost />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/rating-stores" element={<Store />} />
                 <Route path="/stores-owner/:id" element={<Store />} />

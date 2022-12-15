@@ -145,7 +145,7 @@ function Post({
                             ))}
                         </Carousel>
                     )}
-                    {post.images.length > 1 && (
+                    {post.images?.length > 1 && (
                         <>
                             <div
                                 className="post-container__list-images__btn-prev"
