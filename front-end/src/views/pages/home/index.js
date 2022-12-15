@@ -21,7 +21,7 @@ export const Home = () => {
                     id: post.id,
                     title: post.title,
                     content: post.content,
-                    image: post.image,
+                    images: post.images,
                     createdAt: post.createdAt,
                     User: {
                         name: post.User.name,
@@ -81,6 +81,7 @@ export const Home = () => {
             );
         });
     };
+    console.log(listPosts);
     return (
         <Layout>
             <div className="home-container__posts col-6 mx-auto">

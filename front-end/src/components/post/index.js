@@ -9,7 +9,13 @@ import Comment from "../../components/comment";
 import "./post.scss";
 import commentApi from "../../api/commentApi";
 const { TextArea } = Input;
-function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAllComment }) {
+function Post({
+    post,
+    likesOfPosts,
+    likesOfComments,
+    listComments,
+    handleGetAllComment,
+}) {
     const slider = useRef();
     const { user } = useAuth();
     const [showComment, setShowComment] = useState(false);
@@ -22,7 +28,9 @@ function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAll
     const [comments, setComments] = useState();
     const [limit, setLimit] = useState(5);
     useEffect(() => {
-        const likeUsers = likesOfPosts.filter((like) => like.post_id === post.id);
+        const likeUsers = likesOfPosts.filter(
+            (like) => like.post_id === post.id
+        );
         setLikeState(
             likesOfPosts.find(
                 (like) => like.User.id === user.id && like.post_id === post.id
@@ -37,7 +45,7 @@ function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAll
         const commentUsers = listComments.filter(
             (comment) => comment.post_id === post.id
         );
-        setComments(commentUsers)
+        setComments(commentUsers);
         setNumberOfComment(commentUsers.length);
     }, []);
 
@@ -45,7 +53,7 @@ function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAll
         const commentUsers = listComments.filter(
             (comment) => comment.post_id === post.id
         );
-        setComments(commentUsers)
+        setComments(commentUsers);
         setLimitComments(
             commentUsers
                 ?.filter((comment) => comment.parent_id === null)
@@ -122,34 +130,43 @@ function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAll
                     <p className="mt-2">{post.content}</p>
                 </div>
                 <div className="position-relative">
-                    <Carousel
-                        className="post-container__list-images"
-                        ref={(ref) => {
-                            slider.current = ref;
-                        }}
-                    >
-                        {listPostsImages.map((image) => (
-                            <img alt="" src={image} />
-                        ))}
-                    </Carousel>
-                    <div
-                        className="post-container__list-images__btn-prev"
-                        onClick={() => slider.current.prev()}
-                    >
-                        <img
-                            alt=""
-                            src={require("../../assets/images/btn-prev.png")}
-                        />
-                    </div>
-                    <div
-                        className="post-container__list-images__btn-next"
-                        onClick={() => slider.current.next()}
-                    >
-                        <img
-                            alt=""
-                            src={require("../../assets/images/btn-next.png")}
-                        />
-                    </div>
+                    {post.images?.length > 0 && (
+                        <Carousel
+                            className="post-container__list-images"
+                            ref={(ref) => {
+                                slider.current = ref;
+                            }}
+                        >
+                            {post.images.map((image) => (
+                                <img
+                                    alt=""
+                                    src={process.env.REACT_APP_API_URL + image}
+                                />
+                            ))}
+                        </Carousel>
+                    )}
+                    {post.images.length > 1 && (
+                        <>
+                            <div
+                                className="post-container__list-images__btn-prev"
+                                onClick={() => slider.current.prev()}
+                            >
+                                <img
+                                    alt=""
+                                    src={require("../../assets/images/btn-prev.png")}
+                                />
+                            </div>
+                            <div
+                                className="post-container__list-images__btn-next"
+                                onClick={() => slider.current.next()}
+                            >
+                                <img
+                                    alt=""
+                                    src={require("../../assets/images/btn-next.png")}
+                                />
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="post-container__bottom mx-3 mt-2">
                     <div className="d-flex align-item-center">
@@ -195,9 +212,7 @@ function Post({ post, likesOfPosts, likesOfComments,  listComments, handleGetAll
                                     ? "col-4 d-flex justify-content-center"
                                     : "col-4 d-flex justify-content-center txt-blue"
                             }
-                            onClick={() =>
-                                handleCreateLike()
-                            }
+                            onClick={() => handleCreateLike()}
                         >
                             {likeState ? (
                                 <LikeFilled className="icon" />

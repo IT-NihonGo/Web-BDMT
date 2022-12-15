@@ -7,23 +7,25 @@ const {
 
 async function uploadSingle(request, response) {
     try {
-        if (request.file) {
+        if (request.files) {
             const postId = request.params.id
-
             // Check if user exists
             const dbPost = await getPostByPostId(postId)
             if (dbPost) {
                 // Update user avatar in database
-                const extName = path.extname(request.file.originalname)
-                const imageUrl = `public/images/avatars/post/${postId}${extName}`
-                const updatePost = {
-                    image: imageUrl,
+                const listImages =[]
+                for(let i=0; i<request.files.length; i++){
+                    const extName = path.extname(request.files[i].originalname)
+                    const imageUrl = `public/images/posts/post${postId}-${request.files[i].originalname}${extName}`
+                    listImages.push(imageUrl)
                 }
-                updatePostByPostId(updatePost, dbPost.image).then(
+                const updatePost = {
+                    images: listImages,
+                }
+                updatePostByPostId(updatePost, dbPost.id).then(
                     () => {
                         return response.status(200).json({
                             message: "Upload post successfully!",
-                            url: imageUrl,
                         })
                     },
                 )
@@ -38,6 +40,7 @@ async function uploadSingle(request, response) {
             })
         }
     } catch (error) {
+        console.log(error);
         return response.status(500).json({
             message: 'Something went wrong!',
             error: error,

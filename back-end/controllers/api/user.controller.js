@@ -83,7 +83,7 @@ async function create(request, response) {
                 birthday: request.body.birthday,
                 address: request.body.address,
                 phone_number: request.body.phone_number,
-                avatar: 'public/images/avatars/user/default-avatar.png',
+                avatar: 'public/images/avatars/default-avatar.png',
             }
             await addNewUserInfo(newUserInfo)
 
