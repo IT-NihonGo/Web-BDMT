@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import { MailOutlined, LockOutlined, HomeFilled } from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
@@ -105,12 +105,12 @@ function SignUp() {
                             htmlType="submit"
                             className="btn-submit my-3"
                         >
-                            サインアップ
+                            サインイン
                         </Button>
                     </Form.Item>
-                    <a href="/sign-up" className="text-center ">
-                      新しいアカウントを作成する
-                    </a>
+                    <Link className="text-center " to="/sign-up">
+                        新しいアカウントを作成する
+                    </Link>
                 </Form>
             </div>
         </div>

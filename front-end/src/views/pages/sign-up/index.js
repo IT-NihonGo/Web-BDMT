@@ -1,34 +1,44 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button, Form, Input } from "antd";
-import { UserOutlined, LockOutlined, MailOutlined, SettingOutlined, HomeFilled } from "@ant-design/icons";
+import {
+    UserOutlined,
+    LockOutlined,
+    MailOutlined,
+    SettingOutlined,
+    HomeFilled,
+} from "@ant-design/icons";
 import { messages } from "../../../assets/lang/messages";
 import "bootstrap/dist/css/bootstrap.min.css";
-import auth from '../../../api/auth'
+import auth from "../../../api/auth";
 import "./sign-up.scss";
 
 function SignIn() {
     const [inputEmailState, setInputEmailState] = useState(false);
     const [inputUsernameState, setInputUsernameState] = useState(false);
     const [inputPasswordState, setInputPasswordState] = useState(false);
-    const [inputPasswordConfirmState, setInputPasswordConfirmState] = useState(false);
+    const [inputPasswordConfirmState, setInputPasswordConfirmState] =
+        useState(false);
     const [roleId, setRoleId] = useState(1);
     const navigate = useNavigate();
     const onFinish = async (values) => {
         try {
-            values.role_id = roleId
-            const response = await auth.register(values)
-            alert(response.data.message)
-            navigate('/sign-in')
+            values.role_id = roleId;
+            const response = await auth.register(values);
+            alert(response.data.message);
+            navigate("/sign-in");
         } catch (error) {
-            alert(error.response.data.message)
+            alert(error.response.data.message);
         }
     };
 
     return (
         <div className="sign-up-container">
-            <div className="sign-up-container__home-icon" onClick={() => navigate("/")}>
-                <HomeFilled className="icon"/>
+            <div
+                className="sign-up-container__home-icon"
+                onClick={() => navigate("/")}
+            >
+                <HomeFilled className="icon" />
             </div>
             <div className="sign-up-container__content">
                 <h1>サインアップ</h1>
@@ -96,10 +106,14 @@ function SignIn() {
                         }
                     >
                         <SettingOutlined className="icon" />
-                        <Form.Item
-                            name="role_id"
-                        >
-                            <select name="role" className="select-box" onChange={(e) => setRoleId(parseInt(e.target.value))} >
+                        <Form.Item name="role_id">
+                            <select
+                                name="role"
+                                className="select-box"
+                                onChange={(e) =>
+                                    setRoleId(parseInt(e.target.value))
+                                }
+                            >
                                 <option value="1">Reviewer</option>
                                 <option value="2">Store Owner</option>
                             </select>
@@ -190,12 +204,12 @@ function SignIn() {
                             htmlType="submit"
                             className="btn-submit mt-4 mb-3"
                         >
-                            サインイン
+                            サインアップ
                         </Button>
                     </Form.Item>
-                    <a href="/sign-in" className="text-center ">
+                    <Link className="text-center " to="/sign-in">
                         すでにアカウントをお持ちですか？ サインイン
-                    </a>
+                    </Link>
                 </Form>
             </div>
         </div>

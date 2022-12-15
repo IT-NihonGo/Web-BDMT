@@ -55,7 +55,7 @@
   flex-direction: column !important;
 }
 .action-add{
-  position: absolute;
+  position: fixed;
   right: 30px;
   display: flex;
   align-items: center;
@@ -67,9 +67,10 @@
   
 }
 .action-search{
-  position: absolute;
-  left: 250px;
+  position:fixed;
+  left: 260px;
   top: 92px;
+  width: 100%;
   input{
     border-radius: 10px;
     border: 1px solid #489d7e ;
@@ -77,7 +78,7 @@
     padding-right: 15px;
     outline: none;
     height: 40px;
-    width: 260px;
+    width: 18%;
   }
   .icon-search{
     position: absolute;
