@@ -7,6 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import EditIcon from "@mui/icons-material/Edit";
+import StarIcon from '@mui/icons-material/Star';
 import HomeIcon from "@mui/icons-material/Home";
 import StoreIcon from "@mui/icons-material/Store";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
@@ -33,14 +34,19 @@ export default function SideMenu(props) {
             path: "/",
         },
         {
+            icon: <StoreIcon />,
+            title: "My Stores",
+            path: `/stores-owner/${user.id}`,
+        },
+        {
+            icon: <StarIcon />,
+            title: "Rating Stores",
+            path: "/rating-stores",
+        },
+        {
             icon: <PersonRoundedIcon />,
             title: "User",
             path: "/accounts",
-        },
-        {
-            icon: <StoreIcon />,
-            title: "Store",
-            path: "/store",
         },
         {
             icon: <LogoutRoundedIcon />,
@@ -62,6 +68,9 @@ export default function SideMenu(props) {
     };
     if(user?.role_id !== roles.ADMIN){
         menus = menus.filter(item => item.title !== "User")
+    }
+    if(user?.role_id !== roles.STORE_OWNER){
+        menus = menus.filter(item => item.title !== "My Stores")
     }
     return (
         <div className={styles.SideMenu}>

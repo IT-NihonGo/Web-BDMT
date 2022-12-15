@@ -1,5 +1,5 @@
 const {getRoleById} = require("../CRUD/role");
-const {addNewStore, getListStores, getStoreByID, updateStoreByUserID} = require('../CRUD/store')
+const {addNewStore, getListStores, getListStoresOwner, getStoreByID, updateStoreByUserID} = require('../CRUD/store')
 const { getRateByStore, getRateByStoreIdAndUserId, createRate, updateRateById } = require('../CRUD/rate')
 
 const role = require('./../../constant/roles')
@@ -12,7 +12,6 @@ const index = async (request, response) => {
                 ? request.query.txt_search.trim()
                 : '',
         }
-
         var stores = await getListStores(params)
 
         let results = [];
@@ -41,6 +40,50 @@ const index = async (request, response) => {
 
         return response.status(200).json(results)
     } catch (error) {
+        return response.status(500).json({
+            message: 'Something went wrong!',
+            error: error.toString(),
+        })
+    }
+}
+
+const showByOwner = async (request, response) => {
+    try {
+
+        const params = {
+            txt_search: request.query.txt_search
+                ? request.query.txt_search.trim()
+                : '',
+        }
+        
+        var stores = await getListStoresOwner(request.user.user_id, params)
+        let results = [];
+        for (let i = 0; i < stores.length; i++) {
+            let listRate = await getRateByStore(stores[i].id)
+            let rate_amount = 0
+            if(listRate.length > 0){
+                rate_amount = parseFloat((listRate.map(item => item.amount).reduce((a, b) => a + b) / listRate.length).toFixed(1))
+            }
+            results.push({
+                id: stores[i].id,
+                name: stores[i].name,
+                address: stores[i].address,
+                rate_amount: rate_amount,
+                User: {
+                    id: stores[i].User.id,
+                    name: stores[i].User.name,
+                    email: stores[i].User.email,
+                    UserInfo: {
+                        avatar: stores[i].User.UserInfo.avatar,
+                        phone_number: stores[i].User.UserInfo.phone_number,
+                    }
+                }
+            })
+        }
+
+        return response.status(200).json(results)
+    } catch (error) {
+        console.log(error);
         return response.status(500).json({
             message: 'Something went wrong!',
             error: error.toString(),
@@ -153,6 +196,7 @@ const ratingStore = async (req, res) => {
 
 module.exports = {
     getAllStores: index,
+    getStoresByOwner: showByOwner,
     createStore: create,
     updateStoreById: updateById,
     ratingStore: ratingStore,
