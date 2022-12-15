@@ -1,4 +1,5 @@
 const models = require('../../models/index')
+const STATUS = require('../../constant/status')
 const REVIEWER = 3
 const STORE_OWNER = 3
 const ADMIN = 3
@@ -13,7 +14,6 @@ const index = async (req, res) => {
                 : '',
         }
 
-        console.log("params",params);
         const posts = await getAllPost(params)
         return res.status(200).json(posts)
     } catch (error) {
@@ -56,10 +56,13 @@ const create = async (req, res) => {
             store_id: req.body.store_id,
             title: req.body.title,
             content: req.body.content,
+            status: STATUS.PENDING,
+            images: [],
         }
-        await models.Post.create(newPost)
+        const post = await models.Post.create(newPost)
         return res.status(201).json({
             message: 'Create post successfully!',
+            post,
         })
     } catch (err) {
         console.log(err);

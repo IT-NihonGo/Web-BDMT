@@ -18,7 +18,6 @@ export const AddStore = ({ showModal, handleCloseModal }) => {
             alert(response.data.message)
             window.location.reload(false)
         } catch (error) {
-            console.log(error.response.data)
         }
     }
     return (

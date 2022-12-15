@@ -8,7 +8,7 @@ const uploadControllers = require('../controllers/upload')
 const router = express.Router()
 
 router.post(
-    '/avatar/user/:id',
+    '/user/:id',
     checkAuth,
     checkOwnerMiddleware.checkAccountOwner,
     uploadHelpers.userAvatarUploader,
@@ -19,6 +19,7 @@ router.post(
     '/post/image/:id',
     checkAuth,
     checkOwnerMiddleware.checkAccountOwner,
+    uploadHelpers.postImgUploader.array('post-img', 10),
     uploadControllers.postImageController,
 )
 

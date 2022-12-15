@@ -15,7 +15,7 @@ async function uploadSingle(request, response) {
             if (dbUserInfo) {
                 // Update user avatar in database
                 const extName = path.extname(request.file.originalname)
-                const imageUrl = `public/images/avatars/user/${userId}${extName}`
+                const imageUrl = `public/images/avatars/${userId}${extName}`
                 const updateUser = {
                     avatar: imageUrl,
                 }

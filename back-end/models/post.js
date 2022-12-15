@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     store_id: DataTypes.INTEGER,
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    image: DataTypes.STRING,
+    images: DataTypes.ARRAY(DataTypes.STRING),
     status: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

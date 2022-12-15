@@ -13,7 +13,7 @@ export const Header = () => {
     const { user } = useAuth();
     const navigate = useNavigate()
     return (
-        user.UserInfo &&
+        user?.UserInfo &&
         <Grid container className={styles.PageHeading}>
             <Grid item width={"20%"}>
                 <Typography className={styles.WebName}>Blog BDMT</Typography>

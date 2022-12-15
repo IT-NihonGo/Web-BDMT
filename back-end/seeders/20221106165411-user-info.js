@@ -8,7 +8,7 @@ module.exports = {
       [
           {
               user_id: 1,
-              avatar: 'public/images/avatars/user/default-avatar.png',
+              avatar: 'public/images/avatars/default-avatar.png',
               birthday: '2001/10/16',
               address: 'Quảng Bình',
               phone_number: '0354374322',
@@ -16,7 +16,7 @@ module.exports = {
           },
           {
               user_id: 2,
-              avatar: 'public/images/avatars/user/default-avatar.png',
+              avatar: 'public/images/avatars/default-avatar.png',
               birthday: '2001/11/05',
               address: 'Bắc Giang',
               phone_number: '0981669453',
@@ -24,7 +24,7 @@ module.exports = {
           },
           {
               user_id: 3,
-              avatar: 'public/images/avatars/user/default-avatar.png',
+              avatar: 'public/images/avatars/default-avatar.png',
               birthday: '2001/04/21',
               address: 'Đà Nẵng',
               phone_number: '0123456789',
@@ -32,7 +32,7 @@ module.exports = {
           },
           {
               user_id: 4,
-              avatar: 'public/images/avatars/user/default-avatar.png',
+              avatar: 'public/images/avatars/default-avatar.png',
               birthday: '2001/05/06',
               address: 'Đà Nẵng',
               phone_number: '0123456789',
@@ -40,7 +40,7 @@ module.exports = {
           },
           {
               user_id: 5,
-              avatar: 'public/images/avatars/user/default-avatar.png',
+              avatar: 'public/images/avatars/default-avatar.png',
               birthday: '2001/09/28',
               address: 'Đà Nẵng',
               phone_number: '0123456789',
@@ -48,7 +48,7 @@ module.exports = {
           },
           {
             user_id: 6,
-            avatar: 'public/images/avatars/user/default-avatar.png',
+            avatar: 'public/images/avatars/default-avatar.png',
             birthday: '2001/09/28',
             address: 'Đà Nẵng',
             phone_number: '0123456789',

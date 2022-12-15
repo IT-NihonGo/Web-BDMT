@@ -21,12 +21,12 @@ import {
 import { Collapse } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from 'react-router-dom'
-
+import * as roles from "../../shared/constants/role";
 export default function SideMenu(props) {
-    const { setToken, setUser } = useAuth();
+    const { user, setToken, setUser } = useAuth();
     const navigate = useNavigate()
 
-    const menus = [
+    var menus = [
         {
             icon: <HomeIcon />,
             title: "Home",
@@ -60,7 +60,9 @@ export default function SideMenu(props) {
             ? setSelected(title)
             : setSelected("");
     };
-
+    if(user?.role_id !== roles.ADMIN){
+        menus = menus.filter(item => item.title !== "User")
+    }
     return (
         <div className={styles.SideMenu}>
             <List className={styles.list} component="nav">

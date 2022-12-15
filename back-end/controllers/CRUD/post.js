@@ -33,7 +33,6 @@ async function index(params) {
         }),
     })
 
-    console.log("paramsCRUD",params);
 
     return postModel.findAndCountAll({
         include: include,

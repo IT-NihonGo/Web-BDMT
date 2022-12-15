@@ -232,8 +232,7 @@ function Accounts() {
         );
     };
 
-    return (
-        // return user.role === roles.ADMIN ? (
+    return user.role_id === roles.ADMIN ? (
         <Layout>
             <div>
                 {/* --------------------------------------------------- TAB REVIEWER USER --------------------------------------------------- */}
@@ -560,10 +559,10 @@ function Accounts() {
                 <AddUser isModalOpen={showAddUserModal} handleOpenModal={handleShowAddModal}/>
             </div>
         </Layout>
-    );
-    // : (
-    //     <Navigate to="/404" />
-    // )
+    )
+    : (
+        <Navigate to="/" />
+    )
 }
 
 export default Accounts;
