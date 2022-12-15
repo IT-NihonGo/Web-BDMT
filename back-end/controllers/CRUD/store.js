@@ -1,5 +1,8 @@
+const { Op } = require('sequelize')
+
 const storeModel = require(process.cwd() + "/models/index").Store;
 const models = require(process.cwd() + "/models/index");
+const objectCleaner = require(process.cwd() + '/helpers/object-cleaner')
 
 const include = [
     {
@@ -19,10 +22,21 @@ const include = [
     },
 ];
 
-async function index() {
+async function index(params) {
+
+    const selection = objectCleaner.clean({
+        [Op.or]: objectCleaner.clean({
+            name: { [Op.like]: `%${params.txt_search}%` },
+            'name': { [Op.like]: `%${params.txt_search}%` },
+            address: { [Op.like]: `%${params.txt_search}%` },
+            'address': { [Op.like]: `%${params.txt_search}%` },
+        }),
+    })
+
     return storeModel.findAll({
         order: [["createdAt", "DESC"]],
         include: include,
+        where: selection,
     });
 }
 

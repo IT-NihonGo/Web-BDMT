@@ -6,7 +6,14 @@ const role = require('./../../constant/roles')
 
 const index = async (request, response) => {
     try {
-        var stores = await getListStores()
+
+        const params = {
+            txt_search: request.query.txt_search
+                ? request.query.txt_search.trim()
+                : '',
+        }
+
+        var stores = await getListStores(params)
 
         let results = [];
         for (let i = 0; i < stores.length; i++) {

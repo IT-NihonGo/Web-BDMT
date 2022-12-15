@@ -1,5 +1,8 @@
+const { Op } = require('sequelize')
+
 const postModel = require(process.cwd() + "/models/index").Post;
 const models = require(process.cwd() + "/models/index");
+const objectCleaner = require(process.cwd() + '/helpers/object-cleaner')
 
 const include = [
     {
@@ -19,12 +22,25 @@ const include = [
     },
 ];
 
-async function index() {
+async function index(params) {
+
+    const selection = objectCleaner.clean({
+        [Op.or]: objectCleaner.clean({
+            title: { [Op.like]: `%${params.txt_search}%` },
+            'title': { [Op.like]: `%${params.txt_search}%` },
+            content: { [Op.like]: `%${params.txt_search}%` },
+            'content': { [Op.like]: `%${params.txt_search}%` },
+        }),
+    })
+
+    console.log("paramsCRUD",params);
+
     return postModel.findAndCountAll({
         include: include,
         order: [
             ["createdAt", "DESC"],
         ],
+        where: selection,
     });
 }
 
