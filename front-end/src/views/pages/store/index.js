@@ -1,10 +1,8 @@
 import { Add } from "@mui/icons-material";
-import {
-    Button,
-    Grid,
-    Menu as MenuMUI,
-} from "@mui/material";
+import { Button, Grid, Menu as MenuMUI } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Layout from "../../../components/layout";
 import StoreItem from "../../../components/store-item";
 import "./store.scss";
@@ -13,14 +11,24 @@ import useAuth from "../../../hooks/useAuth";
 import { AddStore } from "../../../components/modal/add-store";
 import * as roles from "../../../shared/constants/role";
 
-
 export const Store = () => {
+    const { id } = useParams();
     const [showModal, setShowModal] = useState(false);
     const [listPosts, setListStore] = useState([]);
+    const [textSearch, setTextSearch] = useState();
+    const [params, setParams] = useState({
+        id: id,
+        txt_search: "",
+    });
     const { user } = useAuth();
+    useEffect(() => {
+        if(id){
+            setParams({...params, id: id})
+        }
+    }, [id]);
 
     useEffect(() => {
-        storeApi.getAll().then((response) => {
+        storeApi.getListStores(params).then((response) => {
             setListStore(
                 response.data.map((store) => ({
                     id: store.id,
@@ -39,7 +47,7 @@ export const Store = () => {
                 }))
             );
         });
-    }, []);
+    }, [params]);
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -48,6 +56,18 @@ export const Store = () => {
     return (
         <Layout>
             <div className="action">
+                <div style={{ position: "relative" }}>
+                    <SearchIcon className="icon-search" />
+                    <input
+                        placeholder="Tên, địa chỉ,..."
+                        onChange={(e) =>
+                            setParams({
+                                ...params,
+                                txt_search: e.target.value,
+                            })
+                        }
+                    />
+                </div>
                 {(roles.STORE_OWNER === user.role_id ||
                     roles.ADMIN === user.role_id) && (
                     <Button
@@ -58,7 +78,10 @@ export const Store = () => {
                         <Add />
                     </Button>
                 )}
-                <AddStore showModal={showModal} handleCloseModal={handleCloseModal} />
+                <AddStore
+                    showModal={showModal}
+                    handleCloseModal={handleCloseModal}
+                />
             </div>
 
             <Grid container spacing={2} className="grid-container">

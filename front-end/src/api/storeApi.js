@@ -1,8 +1,11 @@
 import axiosClient from './axiosClient'
 
 const storeApi  = {
-    getAll: () => {
-        const url = `/api/stores`
+    getListStores: (credentials) => {
+        var url = `/api/stores?txt_search=${credentials.txt_search}`
+        if(credentials.id){
+            url = `/api/stores/owner?txt_search=${credentials.txt_search}`
+        }
         return axiosClient.get(url)
     },
     createNew: (credentials) => {

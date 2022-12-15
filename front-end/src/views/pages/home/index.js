@@ -81,7 +81,6 @@ export const Home = () => {
             );
         });
     };
-    console.log(listPosts);
     return (
         <Layout>
             <div className="home-container__posts col-6 mx-auto">

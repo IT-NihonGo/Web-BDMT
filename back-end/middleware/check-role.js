@@ -4,7 +4,7 @@ const ADMIN_ROLE = 3
 
 async function checkRoleReviewer(request, response, next) {
     try {
-        const requestRole = request.userData.role
+        const requestRole = request.user.role_id
 
         // Check if request user is admin or not
         if (requestRole != ADMIN_ROLE) {
@@ -22,9 +22,9 @@ async function checkRoleReviewer(request, response, next) {
     }
 }
 
-async function checkRoleStore(request, response, next) {
+async function checkRoleStoreOwner(request, response, next) {
     try {
-        const requestRole = request.userData.role
+        const requestRole = request.user.role_id
 
         // Check if request user is admin or not
         if (requestRole != ADMIN_ROLE) {
@@ -62,6 +62,6 @@ async function checkRoleAdmin(request, response, next) {
 
 module.exports = {
     checkRoleReviewer: checkRoleReviewer,
-    checkRoleStore: checkRoleStore,
+    checkRoleStoreOwner: checkRoleStoreOwner,
     checkRoleAdmin: checkRoleAdmin,
 }
