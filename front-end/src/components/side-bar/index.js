@@ -6,7 +6,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import EditIcon from "@mui/icons-material/Edit";
+import LibraryAddCheckIcon from '@mui/icons-material/LibraryAddCheck';
 import StarIcon from '@mui/icons-material/Star';
 import HomeIcon from "@mui/icons-material/Home";
 import StoreIcon from "@mui/icons-material/Store";
@@ -34,6 +34,11 @@ export default function SideMenu(props) {
             path: "/",
         },
         {
+            icon: <PersonRoundedIcon />,
+            title: "User",
+            path: "/accounts",
+        },
+        {
             icon: <StoreIcon />,
             title: "My Stores",
             path: `/stores-owner/${user.id}`,
@@ -44,9 +49,9 @@ export default function SideMenu(props) {
             path: "/rating-stores",
         },
         {
-            icon: <PersonRoundedIcon />,
-            title: "User",
-            path: "/accounts",
+            icon: <LibraryAddCheckIcon  />,
+            title: "Approve Post",
+            path: "/approve-post",
         },
         {
             icon: <LogoutRoundedIcon />,
@@ -67,7 +72,7 @@ export default function SideMenu(props) {
             : setSelected("");
     };
     if(user?.role_id !== roles.ADMIN){
-        menus = menus.filter(item => item.title !== "User")
+        menus = menus.filter(item => item.title !== "User" &&  item.title !== "Approve Post")
     }
     if(user?.role_id !== roles.STORE_OWNER){
         menus = menus.filter(item => item.title !== "My Stores")
