@@ -15,8 +15,14 @@ function EditProfile({ editUser, isModalOpen, handleOpenModal }) {
     const [selectedImage, setSelectedImage] = useState();
     const [currentUser, setCurrentUser] = useState();
     useEffect(() => {
-        setCurrentUser(editUser);
+        if(editUser)
+            setCurrentUser(editUser);
+        else setCurrentUser(user);
     }, [isModalOpen]);
+
+
+    console.log("@@@@", editUser)
+
     const onSubmit = async (values) => {
         values.birthday = values.birthday
             ? values.birthday.toDate()
