@@ -140,6 +140,10 @@ function ApprovePost() {
                         </div>
                     ))}
             </div>
+            {
+                listPosts.length <= 0 &&
+                <h4 className="mt-4" style={{textAlign: "center"}}>No posts need to be approved!</h4>
+            } 
         </Layout>
     );
 }
